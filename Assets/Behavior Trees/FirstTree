@@ -1,0 +1,18 @@
+{
+    "nodes": [
+        "{\"guid\":\"ff775933-9853-41cf-9ab1-b794a4c04041\",\"type\":\"Action\",\"position\":{\"x\":555.0,\"y\":210.0},\"target\":\"Sun\"}",
+        "{\"guid\":\"44c15855-9fc2-45ab-95da-2bd1ac479e23\",\"type\":\"Condition\",\"position\":{\"x\":264.0,\"y\":126.0},\"nameCondition\":\"Hello!!!\"}"
+    ],
+    "nodesType": [
+        "BehaviorTree.Editor.SaveSystem.Nodes.ActionNodeData",
+        "BehaviorTree.Editor.SaveSystem.Nodes.ConditionNodeData"
+    ],
+    "edges": [
+        {
+            "fromNodeGuid": "44c15855-9fc2-45ab-95da-2bd1ac479e23",
+            "toNodeGuid": "ff775933-9853-41cf-9ab1-b794a4c04041",
+            "fromPortName": "Output Port",
+            "toPortName": "Input Port"
+        }
+    ]
+}
