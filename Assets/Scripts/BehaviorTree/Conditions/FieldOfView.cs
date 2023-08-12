@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BehaviorTree.Conditions
 {
-    public class IsInFieldOfView : ANode
+    public class FieldOfView : ANode
     {
         private Transform origin;
         private float radiusVision;

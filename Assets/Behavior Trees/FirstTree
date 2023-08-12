@@ -1,18 +1,9 @@
 {
     "nodes": [
-        "{\"guid\":\"ff775933-9853-41cf-9ab1-b794a4c04041\",\"type\":\"Action\",\"position\":{\"x\":555.0,\"y\":210.0},\"target\":\"Sun\"}",
-        "{\"guid\":\"44c15855-9fc2-45ab-95da-2bd1ac479e23\",\"type\":\"Condition\",\"position\":{\"x\":264.0,\"y\":126.0},\"nameCondition\":\"Hello!!!\"}"
+        "{\"guid\":\"6898b817-a8c7-4c99-b857-a914f0590d4e\",\"type\":\"Condition\",\"position\":{\"x\":527.0,\"y\":272.0},\"origin\":{\"instanceID\":40316},\"radiusVision\":2.0,\"angleVision\":2.0,\"playerLayer\":{\"serializedVersion\":\"2\",\"m_Bits\":1},\"obstacleLayer\":{\"serializedVersion\":\"2\",\"m_Bits\":2}}"
     ],
     "nodesType": [
-        "BehaviorTree.Editor.SaveSystem.Nodes.ActionNodeData",
-        "BehaviorTree.Editor.SaveSystem.Nodes.ConditionNodeData"
+        "BehaviorTree.Editor.SaveSystem.Nodes.IsInFieldOfViewNodeData"
     ],
-    "edges": [
-        {
-            "fromNodeGuid": "44c15855-9fc2-45ab-95da-2bd1ac479e23",
-            "toNodeGuid": "ff775933-9853-41cf-9ab1-b794a4c04041",
-            "fromPortName": "Output Port",
-            "toPortName": "Input Port"
-        }
-    ]
+    "edges": []
 }

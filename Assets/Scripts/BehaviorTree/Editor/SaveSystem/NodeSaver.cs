@@ -67,25 +67,28 @@ namespace BehaviorTree.Editor.SaveSystem
             {
                 if (node is ActionNode actionNode)
                 {
-                    var targetTrans = (Transform)actionNode.targetObj.value;
                     var data =new ActionNodeData
                     {
                         guid = actionNode.GUID,
                         type = "Action",
                         position = actionNode.GetPosition().position,
-                        target = targetTrans.name
                     };
                         serializedNodes.Add(JsonUtility.ToJson(data,false));
                     serializedNodesType.Add(data.GetType().FullName);
                 }
                 else if (node is ConditionNode conditionNode)
                 {
-                    var data = new ConditionNodeData
+                    var data = new FieldOfViewNodeData
                     {
                         guid = conditionNode.GUID,
                         type = "Condition",
                         position = conditionNode.GetPosition().position,
-                        nameCondition = conditionNode.NameCondition.value
+                        
+                        origin = (Transform)conditionNode.origin.value,
+                        angleVision = conditionNode.angleVision.value,
+                        radiusVision = conditionNode.radiusVision.value,
+                        playerLayer = conditionNode.playerLayer.value,
+                        obstacleLayer = conditionNode.obstacleLayer.value
                     };
                     serializedNodes.Add(JsonUtility.ToJson(data,false));
                     serializedNodesType.Add(data.GetType().FullName);

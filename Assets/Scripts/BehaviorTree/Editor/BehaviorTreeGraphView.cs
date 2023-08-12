@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using BehaviorTree.Editor.Nodes;
 using BehaviorTree.Editor.SaveSystem;
 using BehaviorTree.Editor.SaveSystem.Nodes;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -25,7 +26,17 @@ namespace BehaviorTree.Editor
             this.style.flexGrow = 1;
         }
 
-        public void CreateNode(string nodeName, Vector2 position)
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        {
+            Vector2 mousePosition = evt.mousePosition;
+            
+            evt.menu.AppendAction("Create Action Node", (action) => CreateNode("Action Node", mousePosition));
+            evt.menu.AppendAction("Create Condition Node", (action) => CreateNode("Condition Node", mousePosition));
+            evt.menu.AppendAction("Create Selector Node", (action) => CreateNode("Selector Node", mousePosition));
+            evt.StopPropagation();
+        }
+
+        private void CreateNode(string nodeName, Vector2 position)
         {
             BehaviorNode node;
 
@@ -33,6 +44,9 @@ namespace BehaviorTree.Editor
             {
                 case "Action Node":
                     node = new ActionNode();
+                    break;
+                case "Selector Node":
+                    node = new SelectorNode();
                     break;
                 case "Condition Node":
                     node = new ConditionNode();
@@ -43,7 +57,7 @@ namespace BehaviorTree.Editor
                     break;
             }
 
-            node.SetPosition(new Rect(position, Vector2.one * 150));
+            node.SetPosition(new Rect(position, Vector2.one * 300));
             AddElement(node);
         }
 
@@ -87,16 +101,14 @@ namespace BehaviorTree.Editor
             BehaviorNode node;
             switch (data.type)
             {
-                case "Action":
-                    var currentActionData = (ActionNodeData) data;
-                    node = new ActionNode(currentActionData.guid);
-                    var currNode = (ActionNode)node;
-                    currNode.targetObj.SetValueWithoutNotify(GameObject.Find(currentActionData.target).transform);
-                    break;
                 case "Condition":
-                    var currentConditionData = JsonUtility.FromJson<ConditionNodeData>(JsonUtility.ToJson(data));
+                    var currentConditionData = JsonUtility.FromJson<FieldOfViewNodeData>(JsonUtility.ToJson(data));
                     var currentConditionNode = new ConditionNode(currentConditionData.guid);
-                    currentConditionNode.NameCondition.value = currentConditionData.nameCondition;
+                    currentConditionNode.origin.SetValueWithoutNotify(currentConditionData.origin);
+                    currentConditionNode.angleVision.value = currentConditionData.angleVision;
+                    currentConditionNode.obstacleLayer.value = currentConditionData.obstacleLayer;
+                    currentConditionNode.playerLayer.value = currentConditionData.playerLayer;
+                    currentConditionNode.radiusVision.value = currentConditionData.radiusVision;
                     node = currentConditionNode;
                     break;
                 default:

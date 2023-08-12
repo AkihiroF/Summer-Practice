@@ -1,27 +1,50 @@
+using BehaviorTree.Conditions;
+using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace BehaviorTree.Editor.Nodes
 {
     public class ConditionNode : BehaviorNode
     {
-        public TextField NameCondition;
-        public ConditionNode() : base("ConditionNode")
+        public ObjectField origin;
+        public FloatField radiusVision;
+        public FloatField angleVision;
+        public LayerMaskField playerLayer;
+        public LayerMaskField obstacleLayer;
+
+        private FieldOfView _fieldOfView;
+        public ConditionNode() : base("Condition Node")
         {
             AddInputPort("Input Port");
-            AddOutputPort("Output Port");
-            if(NameCondition != null)
-                return;
-            NameCondition = new TextField();
-            Add(NameCondition);
+            InitialiseFields();
         }
-        public ConditionNode(string GUID) : base("ConditionNode",GUID)
+
+        public ConditionNode(string guid) : base("Condition Node", guid)
         {
             AddInputPort("Input Port");
-            AddOutputPort("Output Port");
-            if(NameCondition != null)
-                return;
-            NameCondition = new TextField();
-            Add(NameCondition);
+            InitialiseFields();
+        }
+
+        private void InitialiseFields()
+        {
+            origin = new ObjectField("Origin");
+            origin.objectType = typeof(Transform);
+            origin.allowSceneObjects = true;
+
+            angleVision = new FloatField("Angle Vision");
+
+            radiusVision = new FloatField("Radius Vision");
+
+            playerLayer = new LayerMaskField("Target Layer");
+
+            obstacleLayer = new LayerMaskField("Obstacle Layer");
+            
+            Add(origin);
+            Add(radiusVision);
+            Add(angleVision);
+            Add(playerLayer);
+            Add(obstacleLayer);
         }
     }
 }
