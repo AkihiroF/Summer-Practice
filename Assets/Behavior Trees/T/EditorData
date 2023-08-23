@@ -1,33 +1,17 @@
 {
     "nodes": [
-        "{\"guid\":\"0f2b0f91-f1e2-4bff-9651-4d5115f7a404\",\"type\":\"StartingNode\",\"position\":{\"x\":47.0,\"y\":223.0}}",
-        "{\"guid\":\"a4e536e2-e2f1-4f11-aa98-34e9528d6772\",\"type\":\"SelectorNode\",\"position\":{\"x\":225.0,\"y\":164.0}}",
-        "{\"guid\":\"992561ee-6611-49a7-8b5f-0dde14daa785\",\"type\":\"FieldOfViewNode\",\"position\":{\"x\":544.0,\"y\":260.0},\"origin\":{\"instanceID\":0},\"radiusVision\":0.0,\"angleVision\":0.0,\"playerLayer\":{\"serializedVersion\":\"2\",\"m_Bits\":0},\"obstacleLayer\":{\"serializedVersion\":\"2\",\"m_Bits\":0}}",
-        "{\"guid\":\"d02459af-b4ef-4d25-b0c3-ae3f63fabfef\",\"type\":\"FieldOfViewNode\",\"position\":{\"x\":503.0,\"y\":48.0},\"origin\":{\"instanceID\":31562},\"radiusVision\":1.0,\"angleVision\":1.0,\"playerLayer\":{\"serializedVersion\":\"2\",\"m_Bits\":1},\"obstacleLayer\":{\"serializedVersion\":\"2\",\"m_Bits\":32}}"
+        "{\"guid\":\"0f2b0f91-f1e2-4bff-9651-4d5115f7a404\",\"type\":\"StartingNode\",\"position\":{\"x\":47.0,\"y\":223.0},\"Node\":{\"NodeStatus\":0,\"ID\":\"0f2b0f91-f1e2-4bff-9651-4d5115f7a404\"}}",
+        "{\"guid\":\"d02459af-b4ef-4d25-b0c3-ae3f63fabfef\",\"type\":\"FieldOfViewNode\",\"position\":{\"x\":326.0,\"y\":136.0},\"Node\":{\"NodeStatus\":0,\"ID\":\"\"},\"origin\":{\"instanceID\":31576},\"radiusVision\":20.0,\"angleVision\":90.0,\"playerLayer\":{\"serializedVersion\":\"2\",\"m_Bits\":16},\"obstacleLayer\":{\"serializedVersion\":\"2\",\"m_Bits\":32}}"
     ],
     "nodesType": [
         "BehaviorTree.Editor.SaveSystem.Nodes.StartingNodeData",
-        "BehaviorTree.Editor.SaveSystem.Nodes.SelectorData",
-        "BehaviorTree.Editor.SaveSystem.Nodes.FieldOfViewNodeData",
         "BehaviorTree.Editor.SaveSystem.Nodes.FieldOfViewNodeData"
     ],
     "edges": [
         {
-            "fromNodeGuid": "a4e536e2-e2f1-4f11-aa98-34e9528d6772",
-            "toNodeGuid": "d02459af-b4ef-4d25-b0c3-ae3f63fabfef",
-            "fromPortName": "Child",
-            "toPortName": "Input Port"
-        },
-        {
             "fromNodeGuid": "0f2b0f91-f1e2-4bff-9651-4d5115f7a404",
-            "toNodeGuid": "a4e536e2-e2f1-4f11-aa98-34e9528d6772",
+            "toNodeGuid": "d02459af-b4ef-4d25-b0c3-ae3f63fabfef",
             "fromPortName": "Output",
-            "toPortName": "Input Port"
-        },
-        {
-            "fromNodeGuid": "a4e536e2-e2f1-4f11-aa98-34e9528d6772",
-            "toNodeGuid": "992561ee-6611-49a7-8b5f-0dde14daa785",
-            "fromPortName": "Child",
             "toPortName": "Input Port"
         }
     ]

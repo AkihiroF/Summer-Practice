@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace BehaviorTree
@@ -12,6 +11,7 @@ namespace BehaviorTree
         {
             behaviourTreeSo.Convert();
             startNode = behaviourTreeSo.NodesTree[0];
+            startNode.Initialise();
         }
 
         private void FixedUpdate()

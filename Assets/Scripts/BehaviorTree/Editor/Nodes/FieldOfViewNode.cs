@@ -39,19 +39,19 @@ namespace BehaviorTree.Editor.Nodes
 
             AngleVision = new FloatField("Angle Vision");
             AngleVision.RegisterValueChangedCallback(evt 
-                => Container.SetParameter($"Angle Vision {GUID}",evt.newValue));
+                => Container.SetParameter($"Angle Vision {GUID}",(float)evt.newValue));
 
             RadiusVision = new FloatField("Radius Vision");
             RadiusVision.RegisterValueChangedCallback(evt 
-                => Container.SetParameter($"Radius Vision {GUID}", evt.newValue));
+                => Container.SetParameter($"Radius Vision {GUID}", (float)evt.newValue));
 
             PlayerLayer = new LayerMaskField("Target Layer");
             PlayerLayer.RegisterValueChangedCallback(evt 
-                => Container.SetParameter($"Target Layer {GUID}", evt.newValue));
+                => Container.SetParameter($"Target Layer {GUID}", (LayerMask)evt.newValue));
 
             ObstacleLayer = new LayerMaskField("Obstacle Layer");
             ObstacleLayer.RegisterValueChangedCallback(evt 
-                => Container.SetParameter($"Obstacle Layer {GUID}", evt.newValue));
+                => Container.SetParameter($"Obstacle Layer {GUID}", (LayerMask)evt.newValue));
             
             Add(Origin);
             Add(RadiusVision);

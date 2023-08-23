@@ -162,7 +162,6 @@ namespace BehaviorTree.Editor.SaveSystem
                 position = node.GetPosition().position,
                 agent = (NavMeshAgent)node.agent.value,
                 targetPosition = (Transform)node.targetPosition.value,
-                Node = node.Node
             };
             return JsonUtility.ToJson(data);
         }
@@ -174,7 +173,6 @@ namespace BehaviorTree.Editor.SaveSystem
                 guid = node.GUID,
                 position = node.GetPosition().position,
                 type = "SelectorNode",
-                Node = node.Node
             };
             return JsonUtility.ToJson(data);
         }
@@ -186,7 +184,6 @@ namespace BehaviorTree.Editor.SaveSystem
                 guid = nodeEditor.GUID,
                 position = nodeEditor.GetPosition().position,
                 type = "StartingNode",
-                Node = nodeEditor.Node
             };
             return JsonUtility.ToJson(data);
         }
@@ -203,8 +200,6 @@ namespace BehaviorTree.Editor.SaveSystem
             BehaviourTreeSo behaviourTree = AssetDatabase.LoadAssetAtPath<BehaviourTreeSo>(path);
             
             BehaviorNode startingNode = SearchStartingNode(nodes);
-
-            Debug.Log("Save");
             
             startingNode.Node.Initialise();
             

@@ -36,7 +36,7 @@ namespace BehaviorTree.Conditions
         }
         private Vector3 FindVisibleTargets() {
             Collider[] targetsInViewRadius = Physics.OverlapSphere(origin.position, radiusVision, playerLayer);
-
+            Debug.Log(targetsInViewRadius.Length);
             for (int i = 0; i < targetsInViewRadius.Length; i++) {
                 Transform target = targetsInViewRadius[i].transform;
                 Vector3 dirToTarget = (target.position - origin.position).normalized;

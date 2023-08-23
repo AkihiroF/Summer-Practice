@@ -1,13 +1,14 @@
 using System;
+using UnityEngine;
 
 namespace BehaviorTree
 {
     [Serializable]
-    public abstract class ANode
+    public class ANode
     {
-        protected NodeStatus NodeStatus;
-        protected readonly ParameterContainer Container;
-        protected string ID;
+        [SerializeField]protected NodeStatus NodeStatus;
+        [SerializeField]protected readonly ParameterContainer Container;
+        [SerializeField]protected string ID;
 
         protected ANode(ParameterContainer container, string id)
         {
@@ -21,7 +22,10 @@ namespace BehaviorTree
             
         }
 
-        public abstract NodeStatus Tick();
+        public virtual NodeStatus Tick()
+        {
+            return NodeStatus.Running;
+        }
 
         public virtual void Terminate(NodeStatus status)
         {

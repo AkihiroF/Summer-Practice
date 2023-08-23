@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: TSo
   m_EditorClassIdentifier: 
   Nodes:
-  - '{"nextNode":{"type":"BehaviorTree.Selector"}}'
-  - '{"_childNodes":[{"type":"BehaviorTree.Conditions.FieldOfView"},{"type":"BehaviorTree.Conditions.FieldOfView"}]}'
-  - '{"origin":{"instanceID":0},"radiusVision":0.0,"angleVision":0.0,"playerLayer":{"serializedVersion":"2","m_Bits":0},"obstacleLayer":{"serializedVersion":"2","m_Bits":0}}'
-  - '{"origin":{"instanceID":31562},"radiusVision":1.0,"angleVision":1.0,"playerLayer":{"serializedVersion":"2","m_Bits":1},"obstacleLayer":{"serializedVersion":"2","m_Bits":32}}'
+  - '{"NodeStatus":0,"ID":"0f2b0f91-f1e2-4bff-9651-4d5115f7a404","nextNode":{"node":{"NodeStatus":0,"ID":"d02459af-b4ef-4d25-b0c3-ae3f63fabfef"},"type":"BehaviorTree.Conditions.FieldOfView"}}'
+  - '{"NodeStatus":0,"ID":"d02459af-b4ef-4d25-b0c3-ae3f63fabfef","origin":{"instanceID":31576},"radiusVision":90.0,"angleVision":20.0,"playerLayer":{"serializedVersion":"2","m_Bits":16},"obstacleLayer":{"serializedVersion":"2","m_Bits":32}}'
   TypesNode:
   - BehaviorTree.Actions.StartingNode
-  - BehaviorTree.Selector
   - BehaviorTree.Conditions.FieldOfView
-  - BehaviorTree.Conditions.FieldOfView
+  NodesTree:
+  - NodeStatus: 0
+    ID: 0f2b0f91-f1e2-4bff-9651-4d5115f7a404
+  - NodeStatus: 0
+    ID: d02459af-b4ef-4d25-b0c3-ae3f63fabfef
