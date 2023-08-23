@@ -42,14 +42,6 @@ namespace BehaviorTree.Editor
         {
             var toolbar = new Toolbar();
 
-            // Button actionNodeButton = new Button(clickEvent: () => { _graphView.CreateNode("Action Node", Vector2.one * 100); });
-            // actionNodeButton.text = "Create Action Node";
-            // toolbar.Add(actionNodeButton);
-            //
-            // Button conditionNodeButton = new Button(clickEvent: () => { _graphView.CreateNode("Condition Node", Vector2.one * 250); });
-            // conditionNodeButton.text = "Create Condition Node";
-            // toolbar.Add(conditionNodeButton);
-
             Button saveButton = new Button(clickEvent: () => { _graphView.SaveData(); });
             saveButton.text = "Save Tree";
             toolbar.Add(saveButton);
@@ -61,6 +53,10 @@ namespace BehaviorTree.Editor
             Button clearButton = new Button(clickEvent: () => { _graphView.ClearGraph(); });
             clearButton.text = "Clear";
             toolbar.Add(clearButton);
+
+            TextField nameTree = new TextField("Name Tree");
+            _graphView.NameTree = nameTree;
+            toolbar.Add(nameTree);
 
             rootVisualElement.Add(toolbar);
         }

@@ -1,17 +1,27 @@
+using System;
 using UnityEngine;
 
 namespace BehaviorTree.Conditions
 {
+    [Serializable]
     public class FieldOfView : ANode
     {
-        private Transform origin;
-        private float radiusVision;
-        private float angleVision;
-        private LayerMask playerLayer;
-        private LayerMask obstacleLayer;
+        [SerializeField]private Transform origin;
+        [SerializeField]private float radiusVision;
+        [SerializeField]private float angleVision;
+        [SerializeField]private LayerMask playerLayer;
+        [SerializeField]private LayerMask obstacleLayer;
 
+        public FieldOfView(ParameterContainer container, string id) : base(container, id)
+        {
+        }
         public override void Initialise()
         {
+            origin = Container.GetParameter<Transform>($"Origin {ID}");
+            radiusVision = Container.GetParameter<float>($"Angle Vision {ID}");
+            angleVision = Container.GetParameter<float>($"Radius Vision {ID}");
+            playerLayer = Container.GetParameter<LayerMask>($"Target Layer {ID}");
+            obstacleLayer = Container.GetParameter<LayerMask>($"Obstacle Layer {ID}");
             NodeStatus = NodeStatus.Running;
         }
 
@@ -41,6 +51,5 @@ namespace BehaviorTree.Conditions
 
             return Vector3.zero;
         }
-
     }
 }

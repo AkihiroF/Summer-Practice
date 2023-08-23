@@ -1,29 +1,28 @@
+using System;
+using Services;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace BehaviorTree.Actions
 {
+    [Serializable]
     public class MoveToTarget : ANode
     {
-        private readonly NavMeshAgent agent;
-        private readonly Vector3 targetPosition;
-        private float stoppingDistance;
-
-        public MoveToTarget(NavMeshAgent agent, Vector3 targetPosition)
-        {
-            this.agent = agent;
-            this.targetPosition = targetPosition;
-        }
+        [SerializeField]private  NavMeshAgent agent;
+        [SerializeField]private Vector3 targetPosition;
+        [SerializeField]private float stoppingDistance;
 
         public override void Initialise()
         {
+            agent = Container.GetParameter<NavMeshAgent>($"Agent {ID}");
+            targetPosition = Container.GetParameter<Transform>($"TargetPosition {ID}").position;
             stoppingDistance = agent.stoppingDistance;
             NodeStatus = NodeStatus.Running;
         }
 
         public override NodeStatus Tick()
         {
-            agent.SetDestination(targetPosition);
+            agent.Move(targetPosition);
 
             if (agent.remainingDistance <= stoppingDistance)
             {
@@ -36,6 +35,10 @@ namespace BehaviorTree.Actions
         public override void Terminate(NodeStatus status)
         {
             base.Terminate(status);
+        }
+
+        public MoveToTarget(ParameterContainer container, string id) : base(container, id)
+        {
         }
     }
 }
