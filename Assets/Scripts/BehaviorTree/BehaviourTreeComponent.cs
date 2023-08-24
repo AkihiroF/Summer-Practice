@@ -10,8 +10,7 @@ namespace BehaviorTree
         private void Awake()
         {
             behaviourTreeSo.Convert();
-            startNode = behaviourTreeSo.NodesTree[0];
-            startNode.Initialise();
+            startNode = behaviourTreeSo.StartingNode;
         }
 
         private void FixedUpdate()

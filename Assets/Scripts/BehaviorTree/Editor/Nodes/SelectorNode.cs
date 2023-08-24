@@ -41,7 +41,7 @@ namespace BehaviorTree.Editor.Nodes
                 return;
             _nodes.Add(port.Node);
             Debug.Log("Add child");
-            Container.SetParameter($"Selector {GUID}", _nodes);
+            Container.SetParameter($"ChildNodes {GUID}", (List<ANode>)_nodes);
         }
 
         private void RemoveChild(BehaviorNode port)
@@ -49,7 +49,7 @@ namespace BehaviorTree.Editor.Nodes
             if(!_nodes.Contains(port.Node))
                 return;
             _nodes.Remove(port.Node);
-            Container.SetParameter($"Selector {GUID}", _nodes);
+            Container.SetParameter($"ChildNodes {GUID}",(List<ANode>) _nodes);
         }
 
         private void OnPortConnected(MyPort outputPort, Port inputPort)

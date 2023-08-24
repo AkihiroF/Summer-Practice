@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using BehaviorTree.Actions;
 using UnityEngine;
 
 namespace BehaviorTree
@@ -6,16 +8,16 @@ namespace BehaviorTree
     [Serializable]
     public class ANode
     {
-        [SerializeField]protected NodeStatus NodeStatus;
-        [SerializeField]protected readonly ParameterContainer Container;
-        [SerializeField]protected string ID;
+        [SerializeField]protected NodeStatus nodeStatus;
+        protected readonly ParameterContainer Container;
+        [SerializeField]protected string id;
 
         protected ANode(ParameterContainer container, string id)
         {
             Container = container;
-            ID = id;
+            this.id = id;
         }
-        public NodeStatus Status => NodeStatus;
+        public NodeStatus Status => nodeStatus;
 
         public virtual void Initialise()
         {

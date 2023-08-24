@@ -9,6 +9,5 @@ namespace BehaviorTree.Editor.SaveSystem
         public string guid;
         public string type;
         public Vector2 position;
-        public ANode Node;
     }
 }

@@ -2,11 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using BehaviorTree.Actions;
 using BehaviorTree.Editor.Edges;
 using BehaviorTree.Editor.Nodes;
 using BehaviorTree.Editor.SaveSystem.Nodes;
-using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -61,10 +59,10 @@ namespace BehaviorTree.Editor.SaveSystem
             
             CreateDirectory(path);
             
-            SaveToSo(nameTree,nodes);
-            
             GetSerializedEdges(edges);
             GetSerializedNodes(nodes);
+            
+            SaveToSo(nameTree,nodes);
             var jsonData = JsonUtility.ToJson(_listData, true);
             File.WriteAllText(path + "EditorData",jsonData);
             AssetDatabase.Refresh();
@@ -85,23 +83,32 @@ namespace BehaviorTree.Editor.SaveSystem
 
             foreach (var node in nodes)
             {
+                
                 if (node is MoveToTargetNode actionNode)
                 {
+                    if(actionNode.Node is ActionNode actionNodeNode)
+                        actionNodeNode.SetParameters();
                     serializedNodes.Add(ConvertToJson(actionNode, out var data));
                     serializedNodesType.Add(data.GetType().FullName);
                 }
                 else if (node is FieldOfViewNode conditionNode)
                 {
+                    if(conditionNode.Node is ActionNode actionNodeNode)
+                        actionNodeNode.SetParameters();
                     serializedNodes.Add(ConvertToJson(conditionNode, out var data));
                     serializedNodesType.Add(data.GetType().FullName);
                 }
                 else if (node is SelectorNode selectorNode)
                 {
+                    if(selectorNode.Node is BranchNode branchNode)
+                        branchNode.SaveChildes();
                     serializedNodes.Add(ConvertToJson(selectorNode, out var data));
                     serializedNodesType.Add(data.GetType().FullName);
                 }
                 else if (node is StartingNodeEditor startingNode)
                 {
+                    if(startingNode.Node is BranchNode branchNode)
+                        branchNode.SaveChildes();
                     serializedNodes.Add(ConvertToJson(startingNode, out var data));
                     serializedNodesType.Add(data.GetType().FullName);
                 }
@@ -192,30 +199,26 @@ namespace BehaviorTree.Editor.SaveSystem
 
         private void SaveToSo(string nameTree,UQueryState<Node> nodes)
         {
-            List<string> nodesTree = new List<string>();
-            List<string> nodesTreeTypes = new List<string>();
-            
+            Dictionary<string, string> nextNodes = new Dictionary<string, string>();
             string path = PathSaveTrees + nameTree + $"/{nameTree}So.asset";
             
             BehaviourTreeSo behaviourTree = AssetDatabase.LoadAssetAtPath<BehaviourTreeSo>(path);
             
             BehaviorNode startingNode = SearchStartingNode(nodes);
-            
-            startingNode.Node.Initialise();
-            
-            nodesTree.Add(JsonUtility.ToJson(startingNode.Node));
-            nodesTreeTypes.Add(startingNode.Node.GetType().FullName);
-            foreach (var node1 in nodes)
+            var endingNodes = GetEndingNodes(nodes);
+            foreach (BehaviorNode endingNode in endingNodes)
             {
-                var node = (BehaviorNode)node1;
-                if(node is StartingNodeEditor)
-                    continue;
-                var currentNode = node.Node;
-                currentNode.Initialise();
-                nodesTree.Add(JsonUtility.ToJson(currentNode));
-                nodesTreeTypes.Add(currentNode.GetType().FullName);
+                TraverseNode(endingNode);
             }
 
+            foreach (BehaviorNode node in nodes)
+            {
+                if (node.Node is BranchNode branchNode)
+                {
+                    nextNodes.Add(branchNode.ID, JsonUtility.ToJson(branchNode.NextNodes));
+                }
+            }
+            
             if (behaviourTree == null)
             {
                 behaviourTree = ScriptableObject.CreateInstance<BehaviourTreeSo>();
@@ -224,10 +227,43 @@ namespace BehaviorTree.Editor.SaveSystem
                 AssetDatabase.Refresh();
             }
 
-            behaviourTree.Nodes = nodesTree;
-            behaviourTree.TypesNode = nodesTreeTypes;
+            behaviourTree.StartingNodeData = JsonUtility.ToJson(startingNode.Node);
+            behaviourTree.TypeNode = startingNode.Node.GetType().FullName;
+
+            behaviourTree.keys = nextNodes.Keys.ToList();
+            behaviourTree.nodes = nextNodes.Values.ToList();
+            
             EditorUtility.SetDirty(behaviourTree);
             AssetDatabase.SaveAssets();
+        }
+        
+        private void TraverseNode(BehaviorNode node)
+        {
+            if(node.Node is BranchNode branchNode)
+                branchNode.SaveChildes();
+
+            List<BehaviorNode> parentNodes = GetParentNodes(node);
+
+            foreach (BehaviorNode parentNode in parentNodes)
+            {
+                TraverseNode(parentNode);
+            }
+        }
+
+        private List<BehaviorNode> GetParentNodes(BehaviorNode node)
+        {
+            List<BehaviorNode> parentNodes = new List<BehaviorNode>();
+
+            foreach (var visualElement in node.inputContainer.Children())
+            {
+                var ports = (MyPort)visualElement;
+                foreach (var edge in ports.connections)
+                {
+                    parentNodes.Add(edge.output.node as BehaviorNode);
+                }
+            }
+
+            return parentNodes;
         }
 
         private StartingNodeEditor SearchStartingNode(UQueryState<Node> nodes)
@@ -239,6 +275,18 @@ namespace BehaviorTree.Editor.SaveSystem
             }
 
             return null;
+        }
+
+        private List<BehaviorNode> GetEndingNodes(UQueryState<Node> nodes)
+        {
+            List<BehaviorNode> endingNodes = new List<BehaviorNode>();
+            foreach (var node in nodes)
+            {
+                if(node.outputContainer.childCount == 0)
+                    endingNodes.Add(node as BehaviorNode);
+            }
+
+            return endingNodes;
         }
     }
 }

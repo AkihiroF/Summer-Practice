@@ -6,7 +6,7 @@ using UnityEngine.AI;
 namespace BehaviorTree.Actions
 {
     [Serializable]
-    public class MoveToTarget : ANode
+    public class MoveToTarget : ActionNode
     {
         [SerializeField]private  NavMeshAgent agent;
         [SerializeField]private Vector3 targetPosition;
@@ -14,10 +14,14 @@ namespace BehaviorTree.Actions
 
         public override void Initialise()
         {
-            agent = Container.GetParameter<NavMeshAgent>($"Agent {ID}");
-            targetPosition = Container.GetParameter<Transform>($"TargetPosition {ID}").position;
+            nodeStatus = NodeStatus.Running;
+        }
+
+        public override void SetParameters()
+        {
+            agent = Container.GetParameter<NavMeshAgent>($"Agent {id}");
+            targetPosition = Container.GetParameter<Transform>($"TargetPosition {id}").position;
             stoppingDistance = agent.stoppingDistance;
-            NodeStatus = NodeStatus.Running;
         }
 
         public override NodeStatus Tick()
@@ -26,10 +30,10 @@ namespace BehaviorTree.Actions
 
             if (agent.remainingDistance <= stoppingDistance)
             {
-                NodeStatus = NodeStatus.Success;
+                nodeStatus = NodeStatus.Success;
             }
 
-            return NodeStatus;
+            return nodeStatus;
         }
 
         public override void Terminate(NodeStatus status)

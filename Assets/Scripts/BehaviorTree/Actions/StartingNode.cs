@@ -1,29 +1,24 @@
 using System;
-using BehaviorTree.Conditions;
 using UnityEngine;
 
 namespace BehaviorTree.Actions
 {
     [Serializable]
-    public class StartingNode : ANode
+    public class StartingNode : BranchNode
     {
-        [SerializeField]private NextNode nextNode;
         public override void Initialise()
         {
-            if (nextNode.node == null)
-            {
-                nextNode = new NextNode();
-                nextNode.node = Container.GetParameter<ANode>($"Start {ID}");
-                nextNode.type = nextNode.node.GetType().FullName;
-            }
+            Debug.Log(nextNodes.Count);
+            var nextNode = nextNodes[0];
             Type type = Type.GetType(nextNode.type);
             nextNode.node = (ANode)JsonUtility.FromJson(JsonUtility.ToJson(nextNode.node), type);
+            nextNodes[0] = nextNode;
         }
 
         public override NodeStatus Tick()
         {
-            var node = (FieldOfView)nextNode.node;
-            return node.Tick();
+            Debug.Log(nextNodes[0].node);
+            return nextNodes[0].node.Tick();
         }
 
         public StartingNode(ParameterContainer container, string id) : base(container, id)
@@ -33,7 +28,8 @@ namespace BehaviorTree.Actions
     [Serializable]
     public struct NextNode
     {
-        public ANode node;
+        public string nodeData;
         public string type;
+        public ANode node;
     }
 }

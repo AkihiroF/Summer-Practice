@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using BehaviorTree.Editor.Edges;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -6,7 +7,6 @@ namespace BehaviorTree.Editor.Nodes
 {
     public class StartingNodeEditor : BehaviorNode
     {
-        private ANode nextNode;
         public StartingNodeEditor(ParameterContainer container) : base("StartingNode", container)
         {
             AddOutputPort("Output", false);
@@ -34,18 +34,14 @@ namespace BehaviorTree.Editor.Nodes
 
         private void AddChild(BehaviorNode port)
         {
-            if(nextNode != null)
-                return;
-            nextNode = port.Node;
-            Container.SetParameter($"Start {GUID}", nextNode);
+            List<ANode> nextNode = new List<ANode>();
+            nextNode.Add(port.Node);
+            Container.SetParameter($"ChildNodes {GUID}", nextNode);
         }
 
         private void RemoveChild(BehaviorNode port)
         {
-            if(nextNode == null)
-                return;
-            nextNode = null;
-            Container.RemoveParameter($"Start {GUID}");
+            Container.RemoveParameter($"ChildNodes {GUID}");
         }
         private void OnPortConnected(MyPort outputPort, Port inputPort)
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace BehaviorTree.Conditions
 {
     [Serializable]
-    public class FieldOfView : ANode
+    public class FieldOfView : ActionNode
     {
         [SerializeField]private Transform origin;
         [SerializeField]private float radiusVision;
@@ -17,16 +17,12 @@ namespace BehaviorTree.Conditions
         }
         public override void Initialise()
         {
-            origin = Container.GetParameter<Transform>($"Origin {ID}");
-            radiusVision = Container.GetParameter<float>($"Angle Vision {ID}");
-            angleVision = Container.GetParameter<float>($"Radius Vision {ID}");
-            playerLayer = Container.GetParameter<LayerMask>($"Target Layer {ID}");
-            obstacleLayer = Container.GetParameter<LayerMask>($"Obstacle Layer {ID}");
-            NodeStatus = NodeStatus.Running;
+            nodeStatus = NodeStatus.Running;
         }
 
         public override NodeStatus Tick()
         {
+            Debug.Log(origin);
             if (FindVisibleTargets() != Vector3.zero)
             {
                 return NodeStatus.Success;
@@ -34,6 +30,16 @@ namespace BehaviorTree.Conditions
 
             return NodeStatus.Running;
         }
+
+        public override void SetParameters()
+        {
+            origin = Container.GetParameter<Transform>($"Origin {id}");
+            radiusVision = Container.GetParameter<float>($"Angle Vision {id}");
+            angleVision = Container.GetParameter<float>($"Radius Vision {id}");
+            playerLayer = Container.GetParameter<LayerMask>($"Target Layer {id}");
+            obstacleLayer = Container.GetParameter<LayerMask>($"Obstacle Layer {id}");
+        }
+
         private Vector3 FindVisibleTargets() {
             Collider[] targetsInViewRadius = Physics.OverlapSphere(origin.position, radiusVision, playerLayer);
             Debug.Log(targetsInViewRadius.Length);

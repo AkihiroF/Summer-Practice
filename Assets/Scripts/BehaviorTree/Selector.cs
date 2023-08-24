@@ -6,32 +6,27 @@ using UnityEngine;
 namespace BehaviorTree
 {
     [Serializable]
-    public class Selector : ANode
+    public class Selector : BranchNode
     {
-        [SerializeField]private List<NextNode> _childNodes;
 
         public Selector(string id, ParameterContainer container) : base(container,id)
         {
-            _childNodes = new List<NextNode>();
-            ID = id;
+            base.id = id;
         }
         public override void Initialise()
         {
-            _childNodes = new List<NextNode>();
-            var nodes = Container.GetParameter<List<ANode>>($"Selector {ID}");
-            foreach (var node in nodes)
+            for (int i = 0; i < nextNodes.Count; i++)
             {
-                _childNodes.Add(new NextNode()
-                {
-                    node = node,
-                    type = node.GetType().FullName
-                });
+                NextNode nextNode = nextNodes[i];
+                Type type = Type.GetType(nextNode.type);
+                nextNode.node = (ANode)JsonUtility.FromJson(nextNode.nodeData, type);
+                nextNodes[i] = nextNode;
             }
         }
 
         public override NodeStatus Tick()
         {
-            foreach (var child in _childNodes)
+            foreach (var child in nextNodes)
             {
                 var status = child.node.Tick();
                 if (status == NodeStatus.Success)
