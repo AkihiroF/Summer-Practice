@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using UnityEngine;
 
 namespace BehaviorTree
 {
@@ -36,7 +37,7 @@ namespace BehaviorTree
                 nextNodes.nextNodes.Add(new NextNode()
                 {
                     type = node.GetType().FullName,
-                    nodeData = JsonConvert.SerializeObject(node)
+                    nodeData = JsonUtility.ToJson(node)
                 });
             }
         }
@@ -45,12 +46,12 @@ namespace BehaviorTree
         public void DeserializeChildren(Dictionary<string, string> nodes)
         {
             var nodesData = nodes[id];
-            nextNodes = JsonConvert.DeserializeObject<ListNextNodes>(nodesData);
+            nextNodes = JsonUtility.FromJson<ListNextNodes>(nodesData);
             for(int i = 0; i < nextNodes.nextNodes.Count; i++)
             {
                 var currentNode = nextNodes.nextNodes[i];
                 Type type = Type.GetType(currentNode.type);
-                var newNode = (ANode)JsonConvert.DeserializeObject(currentNode.nodeData, type);
+                var newNode = (ANode)JsonUtility.FromJson(currentNode.nodeData, type);
                 currentNode.node = newNode;
                 nextNodes.nextNodes[i] = currentNode;
                 if (currentNode.node is BranchNode branchNode)

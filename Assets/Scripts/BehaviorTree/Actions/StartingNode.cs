@@ -1,5 +1,5 @@
 using System;
-using Newtonsoft.Json; // Using Newtonsoft.Json instead of JsonUtility
+using UnityEngine; // Using Newtonsoft.Json instead of JsonUtility
 
 namespace BehaviorTree.Actions
 {
@@ -16,7 +16,7 @@ namespace BehaviorTree.Actions
         {
             var nextNode = nextNodes.nextNodes[0];
             Type type = Type.GetType(nextNode.type);
-            nextNode.node = (ANode)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(nextNode.node), type); // Using JsonConvert
+            nextNode.node = (ANode)JsonUtility.FromJson(JsonUtility.ToJson(nextNode.node), type);
             nextNodes.nextNodes[0] = nextNode;
         }
 

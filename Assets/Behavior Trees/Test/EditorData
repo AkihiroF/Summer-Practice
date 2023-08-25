@@ -2,12 +2,12 @@
     "nodes": [
         "{\"guid\":\"f8f7805a-5ae6-46a4-9f69-84b65589201c\",\"type\":\"StartingNode\",\"position\":{\"x\":97.0,\"y\":111.0}}",
         "{\"guid\":\"d555f6fc-8ab4-45ca-a8a1-a74847ad4f2a\",\"type\":\"SelectorNode\",\"position\":{\"x\":315.0,\"y\":137.0}}",
-        "{\"guid\":\"fd82daa7-9c22-45ef-9f05-da7d8f136a99\",\"type\":\"FieldOfViewNode\",\"position\":{\"x\":576.0,\"y\":50.0},\"origin\":{\"instanceID\":31580},\"radiusVision\":20.0,\"angleVision\":90.0,\"playerLayer\":{\"serializedVersion\":\"2\",\"m_Bits\":16},\"obstacleLayer\":{\"serializedVersion\":\"2\",\"m_Bits\":32}}"
+        "{\"guid\":\"eb376d7f-b8c9-4a43-a2e2-7b2e19485604\",\"type\":\"MoveToTargetNode\",\"position\":{\"x\":602.0,\"y\":330.0},\"agent\":{\"instanceID\":-56778},\"targetPosition\":{\"instanceID\":33486}}"
     ],
     "nodesType": [
         "BehaviorTree.Editor.SaveSystem.Nodes.StartingNodeData",
         "BehaviorTree.Editor.SaveSystem.Nodes.SelectorData",
-        "BehaviorTree.Editor.SaveSystem.Nodes.FieldOfViewNodeData"
+        "BehaviorTree.Editor.SaveSystem.Nodes.MoveToTargetNodeData"
     ],
     "edges": [
         {
@@ -18,7 +18,7 @@
         },
         {
             "fromNodeGuid": "d555f6fc-8ab4-45ca-a8a1-a74847ad4f2a",
-            "toNodeGuid": "fd82daa7-9c22-45ef-9f05-da7d8f136a99",
+            "toNodeGuid": "eb376d7f-b8c9-4a43-a2e2-7b2e19485604",
             "fromPortName": "Child",
             "toPortName": "Input Port"
         }
