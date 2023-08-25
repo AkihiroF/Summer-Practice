@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d64b47c83b24a0a95e4b75aebbd48b8, type: 3}
+  m_Name: TestSo
+  m_EditorClassIdentifier: 
+  StartingNodeData: '{"nodeStatus":0,"id":"f8f7805a-5ae6-46a4-9f69-84b65589201c"}'
+  TypeNode: BehaviorTree.Actions.StartingNode
+  StartingNode:
+    nodeStatus: 0
+    id: f8f7805a-5ae6-46a4-9f69-84b65589201c
+  keys:
+  - f8f7805a-5ae6-46a4-9f69-84b65589201c
+  - d555f6fc-8ab4-45ca-a8a1-a74847ad4f2a
+  nodes:
+  - '{"nextNodes":[{"nodeData":"{\"ID\":\"d555f6fc-8ab4-45ca-a8a1-a74847ad4f2a\",\"NextNodes\":{\"nextNodes\":[{\"nodeData\":\"{\\\"Status\\\":0}\",\"type\":\"BehaviorTree.Conditions.FieldOfView\",\"node\":null}]},\"Status\":0}","type":"BehaviorTree.Selector","node":{"nodeStatus":0,"id":""}}]}'
+  - '{"nextNodes":[{"nodeData":"{\"Status\":0}","type":"BehaviorTree.Conditions.FieldOfView","node":{"nodeStatus":0,"id":""}}]}'

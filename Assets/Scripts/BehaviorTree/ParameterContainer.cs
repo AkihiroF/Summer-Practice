@@ -4,16 +4,16 @@ namespace BehaviorTree
 {
     public class ParameterContainer
     {
-        private Dictionary<string, object> parameters = new Dictionary<string, object>();
+        // Dictionary to store parameters by name
+        private readonly Dictionary<string, object> parameters = new Dictionary<string, object>();
 
+        // Sets a parameter by name, adding or updating as necessary
         public void SetParameter(string name, object value)
         {
-            if(parameters.ContainsKey(name))
-                parameters[name] = value;
-            else
-                parameters.Add(name,value);
+            parameters[name] = value;
         }
 
+        // Retrieves a parameter by name, returning the default value if not found
         public T GetParameter<T>(string name)
         {
             if (parameters.TryGetValue(name, out object value))
@@ -23,10 +23,10 @@ namespace BehaviorTree
             return default;
         }
 
+        // Removes a parameter by name if it exists
         public void RemoveParameter(string name)
         {
-            if (parameters.ContainsKey(name))
-                parameters.Remove(name);
+            parameters.Remove(name);
         }
     }
 }

@@ -61,13 +61,16 @@ namespace BehaviorTree.Editor.Edges
               }
             }
        
+        // Events for connection and disconnection
         public Action<MyPort,Port> OnConnect;
         public Action<MyPort,Port> OnDisconnect;
+        public Action OnDisconnectAll;
        
         protected MyPort(Orientation portOrientation, Direction portDirection, Capacity portCapacity, Type type) : base(portOrientation, portDirection, portCapacity, type)
         {
         }
  
+        // Called when a connection is made
         public override void Connect(Edge edge)
         {
             base.Connect(edge);
@@ -83,6 +86,7 @@ namespace BehaviorTree.Editor.Edges
             
         }
  
+        // Called when a connection is disconnected
         public override void Disconnect(Edge edge)
         {
             base.Disconnect(edge);
@@ -95,6 +99,7 @@ namespace BehaviorTree.Editor.Edges
             //OnDisconnect?.Invoke(thi);
         }
        
+        // Factory method to create a MyPort instance
         public new static MyPort Create<TEdge>(
             Orientation orientation,
             Direction direction,

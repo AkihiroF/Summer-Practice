@@ -1,22 +1,17 @@
 using System.Collections.Generic;
 using BehaviorTree.Editor.Edges;
-using Services;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine;
 
 namespace BehaviorTree.Editor.Nodes
 {
+    namespace BehaviorTree.Editor.Nodes
+{
     public class SelectorNode : BehaviorNode
     {
-        private List<ANode> _nodes;
-        public SelectorNode(ParameterContainer container) : base("ConditionNode",container)
-        {
-            AddInputPort("Input Port");
-            AddOutputPort("Child");
-            Node = new Selector(GUID, container);
-            _nodes = new List<ANode>();
-        }
-        public SelectorNode(string GUID, ParameterContainer container) : base("ConditionNode",GUID,container)
+        private List<ANode> _nodes; // List to store child nodes
+
+        // Constructor for creating a new SelectorNode with a new GUID
+        public SelectorNode(ParameterContainer container) : base("SelectorNode", container)
         {
             AddInputPort("Input Port");
             AddOutputPort("Child");
@@ -24,6 +19,16 @@ namespace BehaviorTree.Editor.Nodes
             _nodes = new List<ANode>();
         }
 
+        // Constructor for creating a SelectorNode with an existing GUID
+        public SelectorNode(string GUID, ParameterContainer container) : base("SelectorNode", GUID, container)
+        {
+            AddInputPort("Input Port");
+            AddOutputPort("Child");
+            Node = new Selector(GUID, container);
+            _nodes = new List<ANode>();
+        }
+
+        // Method to add an output port
         protected override void AddOutputPort(string portName, bool multi = true)
         {
             var multiPort = multi ? Port.Capacity.Multi : Port.Capacity.Single;
@@ -31,27 +36,36 @@ namespace BehaviorTree.Editor.Nodes
             port.portName = portName;
             port.OnConnect += OnPortConnected;
             port.OnDisconnect += OnPortDisconnected;
-        
+            port.OnDisconnectAll += OnAllPortDisconnected;
+
             outputContainer.Add(port);
         }
 
+        // Method to handle all port disconnections
+        private void OnAllPortDisconnected()
+        {
+            _nodes = new List<ANode>();
+        }
+
+        // Method to add a child node
         private void AddChild(BehaviorNode port)
         {
-            if(_nodes.Contains(port.Node))
+            if (_nodes.Contains(port.Node))
                 return;
             _nodes.Add(port.Node);
-            Debug.Log("Add child");
             Container.SetParameter($"ChildNodes {GUID}", (List<ANode>)_nodes);
         }
 
+        // Method to remove a child node
         private void RemoveChild(BehaviorNode port)
         {
-            if(!_nodes.Contains(port.Node))
+            if (!_nodes.Contains(port.Node))
                 return;
             _nodes.Remove(port.Node);
-            Container.SetParameter($"ChildNodes {GUID}",(List<ANode>) _nodes);
+            Container.SetParameter($"ChildNodes {GUID}", (List<ANode>)_nodes);
         }
 
+        // Method to handle port connection
         private void OnPortConnected(MyPort outputPort, Port inputPort)
         {
             var parentNode = (SelectorNode)outputPort.node;
@@ -59,6 +73,7 @@ namespace BehaviorTree.Editor.Nodes
             parentNode.AddChild(childNode);
         }
 
+        // Method to handle port disconnection
         private void OnPortDisconnected(MyPort outputPort, Port inputPort)
         {
             var parentNode = (SelectorNode)outputPort.node;
@@ -66,4 +81,6 @@ namespace BehaviorTree.Editor.Nodes
             parentNode.RemoveChild(childNode);
         }
     }
+}
+
 }

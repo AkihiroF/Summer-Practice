@@ -7,17 +7,19 @@ namespace BehaviorTree.Editor.Nodes
 {
     public class StartingNodeEditor : BehaviorNode
     {
+        // Constructor for creating a starting node with a new GUID
         public StartingNodeEditor(ParameterContainer container) : base("StartingNode", container)
         {
             AddOutputPort("Output", false);
-            this.capabilities &= ~Capabilities.Deletable;
+            this.capabilities &= ~Capabilities.Deletable; // Node cannot be deleted
             Node = new Actions.StartingNode(container, GUID);
         }
 
+        // Constructor for creating a starting node with an existing GUID
         public StartingNodeEditor(string guid, ParameterContainer container) : base("StartingNode", guid, container)
         {
             AddOutputPort("Output", false);
-            this.capabilities &= ~Capabilities.Deletable;
+            this.capabilities &= ~Capabilities.Deletable; // Node cannot be deleted
             Node = new Actions.StartingNode(container, guid);
         }
 

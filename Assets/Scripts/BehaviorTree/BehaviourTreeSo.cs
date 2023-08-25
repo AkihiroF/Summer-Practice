@@ -1,32 +1,32 @@
 using System;
 using System.Collections.Generic;
-using BehaviorTree.Actions;
 using UnityEngine;
 
 namespace BehaviorTree
 {
     public class BehaviourTreeSo : ScriptableObject
     {
-        public string StartingNodeData;
-        public string TypeNode;
-        public ANode StartingNode;
+        public string StartingNodeData; // Serialized data for the starting node
+        public string TypeNode; // Type of the node
+        public ANode StartingNode; // Reference to the starting node
 
-        public List<string> keys;
-        public List<string> nodes;
+        public List<string> keys; // List of keys for the nodes
+        public List<string> nodes; // List of nodes
 
-        public  Dictionary<string, string> convertingNodes;
+        private Dictionary<string, string> convertingNodes; // Dictionary to hold the conversion of nodes
 
+        // Method to convert the nodes
         public void Convert()
         {
             convertingNodes = new Dictionary<string, string>();
             for (int i = 0; i < keys.Count; i++)
             {
-                convertingNodes.Add(keys[i], nodes[i]);
+                convertingNodes.Add(keys[i], nodes[i]); // Adding keys and nodes to the dictionary
             }
-            Type type = Type.GetType(TypeNode);
-            StartingNode = (ANode)JsonUtility.FromJson(StartingNodeData, type);
-            if(StartingNode is BranchNode branchNode)
-                branchNode.SetChildes(convertingNodes);
+            Type type = Type.GetType(TypeNode); // Getting the type of the node
+            StartingNode = (ANode)JsonUtility.FromJson(StartingNodeData, type); // Deserializing the starting node data
+            if (StartingNode is BranchNode branchNode)
+                branchNode.DeserializeChildren(convertingNodes); // Deserializing the children if the starting node is a branch node
         }
     }
 }

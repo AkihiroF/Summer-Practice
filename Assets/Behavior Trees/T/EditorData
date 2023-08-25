@@ -2,7 +2,7 @@
     "nodes": [
         "{\"guid\":\"0f2b0f91-f1e2-4bff-9651-4d5115f7a404\",\"type\":\"StartingNode\",\"position\":{\"x\":47.0,\"y\":223.0}}",
         "{\"guid\":\"121a2fec-b2ea-4bc5-812d-d8006ac30d10\",\"type\":\"SelectorNode\",\"position\":{\"x\":243.0,\"y\":185.0}}",
-        "{\"guid\":\"d02459af-b4ef-4d25-b0c3-ae3f63fabfef\",\"type\":\"FieldOfViewNode\",\"position\":{\"x\":496.0,\"y\":87.0},\"origin\":{\"instanceID\":31580},\"radiusVision\":20.0,\"angleVision\":90.0,\"playerLayer\":{\"serializedVersion\":\"2\",\"m_Bits\":16},\"obstacleLayer\":{\"serializedVersion\":\"2\",\"m_Bits\":32}}"
+        "{\"guid\":\"d02459af-b4ef-4d25-b0c3-ae3f63fabfef\",\"type\":\"FieldOfViewNode\",\"position\":{\"x\":495.0,\"y\":136.0},\"origin\":{\"instanceID\":31580},\"radiusVision\":20.0,\"angleVision\":90.0,\"playerLayer\":{\"serializedVersion\":\"2\",\"m_Bits\":16},\"obstacleLayer\":{\"serializedVersion\":\"2\",\"m_Bits\":32}}"
     ],
     "nodesType": [
         "BehaviorTree.Editor.SaveSystem.Nodes.StartingNodeData",

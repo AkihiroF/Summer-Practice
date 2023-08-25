@@ -10,15 +10,17 @@ namespace BehaviorTree.Editor
 {
     public class BehaviorTreeGraphView : GraphView
     {
-        public TextField NameTree;
-        private NodeSaver _saver;
-        private ParameterContainer _container;
-        private CreatorNode _creator;
+        public TextField NameTree; // TextField to input the name of the tree
+        private NodeSaver _saver; // Responsible for saving the nodes
+        private ParameterContainer _container; // Container for parameters
+        private NodeFactory _nodeFactory; // Factory for creating nodes
+
         public BehaviorTreeGraphView()
         {
             _saver = new NodeSaver();
             _container = new ParameterContainer();
-            _creator = new CreatorNode(_container);
+            _nodeFactory = new NodeFactory(_container); // Initialize node factory
+            
             this.AddManipulator(new ContentZoomer());
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
@@ -30,6 +32,7 @@ namespace BehaviorTree.Editor
             this.style.flexGrow = 1;
         }
 
+        // Context menu for creating nodes
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             Vector2 mousePosition = evt.mousePosition;
@@ -40,58 +43,34 @@ namespace BehaviorTree.Editor
             evt.StopPropagation();
         }
 
+        // Create a node with the given name and position
         private void CreateNode(string nodeName, Vector2 position)
         {
+            // Check if a starting node exists and create one if not
             if (!StartingExist())
             {
-                CreateStartNode(position + Vector2.up * 200);
+                AddElement(_nodeFactory.CreateNode("StartingNode", position + Vector2.down * 200));
             }
             
-            BehaviorNode node;
-
-            switch (nodeName)
-            {
-                case "MoveToTargetNode":
-                    node = new MoveToTargetNode(_container);
-                    break;
-                case "SelectorNode":
-                    node = new SelectorNode(_container);
-                    break;
-                case "FieldOfViewNode":
-                    node = new FieldOfViewNode(_container);
-                    break;
-                case "StartingNode":
-                    node = new StartingNodeEditor(_container);
-                    break;
-                default:
-                    node = new BehaviorNode(nodeName,_container);
-                    Debug.Log("create base node");
-                    break;
-            }
-
-            node.SetPosition(new Rect(position, Vector2.one * 300));
+            // Create the node using the factory
+            BehaviorNode node = _nodeFactory.CreateNode(nodeName, position);
             AddElement(node);
         }
-
+        
+        // Check if a starting node exists in the graph
         private bool StartingExist()
         {
             foreach (var node in nodes)
             {
                 if (node is StartingNodeEditor)
                 {
-                    return true; // Нода с заданным именем найдена
+                    return true; 
                 }
             }
             return false;
         }
 
-        private void CreateStartNode(Vector2 position)
-        {
-            var node = new StartingNodeEditor(_container);
-            node.SetPosition(new Rect(position, Vector2.one * 300));
-            AddElement(node);
-        }
-
+        // Get compatible ports for connections
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
             var compatiblePorts = new List<Port>();
@@ -106,21 +85,20 @@ namespace BehaviorTree.Editor
             return compatiblePorts;
         }
 
-
+        // Save the current state of the graph
         public void SaveData()
         {
             _saver.SaveData(NameTree.value,nodes,edges);
         }
 
+        // Clear the graph
         public void ClearGraph()
         {
-            // Удалить все узлы
             foreach (var node in nodes.ToList())
             {
                 RemoveElement(node);
             }
-
-            // Удалить все связи
+            
             foreach (var edge in edges.ToList())
             {
                 RemoveElement(edge);
@@ -129,7 +107,7 @@ namespace BehaviorTree.Editor
 
         private void CreateNode(NodeData data)
         {
-            BehaviorNode node = _creator.CreateBehaviorNode(data);
+            BehaviorNode node = _nodeFactory.CreateBehaviorNode(data);
             if(node == null)
                 return;
             node.SetPosition(new Rect(data.position, Vector2.one * 150));
@@ -137,6 +115,7 @@ namespace BehaviorTree.Editor
         }
 
 
+        // Load data from saved state
         public void LoadData()
         {
             ClearGraph();
@@ -159,6 +138,7 @@ namespace BehaviorTree.Editor
             }
         }
         
+        // Find a node by its GUID
         private BehaviorNode FindNodeByGuid(string guid)
         {
             return nodes.ToList().Find(node => (node as BehaviorNode).GUID == guid) as BehaviorNode;

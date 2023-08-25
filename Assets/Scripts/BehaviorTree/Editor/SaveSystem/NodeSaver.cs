@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using BehaviorTree.Editor.Edges;
 using BehaviorTree.Editor.Nodes;
+using BehaviorTree.Editor.Nodes.BehaviorTree.Editor.Nodes;
 using BehaviorTree.Editor.SaveSystem.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -101,14 +102,14 @@ namespace BehaviorTree.Editor.SaveSystem
                 else if (node is SelectorNode selectorNode)
                 {
                     if(selectorNode.Node is BranchNode branchNode)
-                        branchNode.SaveChildes();
+                        branchNode.SerializeChildren();
                     serializedNodes.Add(ConvertToJson(selectorNode, out var data));
                     serializedNodesType.Add(data.GetType().FullName);
                 }
                 else if (node is StartingNodeEditor startingNode)
                 {
                     if(startingNode.Node is BranchNode branchNode)
-                        branchNode.SaveChildes();
+                        branchNode.SerializeChildren();
                     serializedNodes.Add(ConvertToJson(startingNode, out var data));
                     serializedNodesType.Add(data.GetType().FullName);
                 }
@@ -240,7 +241,7 @@ namespace BehaviorTree.Editor.SaveSystem
         private void TraverseNode(BehaviorNode node)
         {
             if(node.Node is BranchNode branchNode)
-                branchNode.SaveChildes();
+                branchNode.SerializeChildren();
 
             List<BehaviorNode> parentNodes = GetParentNodes(node);
 

@@ -1,19 +1,52 @@
 using BehaviorTree.Editor.Nodes;
+using BehaviorTree.Editor.Nodes.BehaviorTree.Editor.Nodes;
 using BehaviorTree.Editor.SaveSystem;
 using BehaviorTree.Editor.SaveSystem.Nodes;
 using UnityEngine;
 
 namespace BehaviorTree.Editor
 {
-    public class CreatorNode
+    public class NodeFactory
     {
-        private ParameterContainer _container;
+        private ParameterContainer _container; // Container for parameters
 
-        public CreatorNode(ParameterContainer container)
+        // Constructor accepting a ParameterContainer
+        public NodeFactory(ParameterContainer container)
         {
             _container = container;
         }
 
+        // Create a node based on the given name and position
+        public BehaviorNode CreateNode(string nodeName, Vector2 position)
+        {
+            
+            BehaviorNode node;
+
+            switch (nodeName)
+            {
+                case "MoveToTargetNode":
+                    node = new MoveToTargetNode(_container);
+                    break;
+                case "SelectorNode":
+                    node = new SelectorNode(_container);
+                    break;
+                case "FieldOfViewNode":
+                    node = new FieldOfViewNode(_container);
+                    break;
+                case "StartingNode":
+                    node = new StartingNodeEditor(_container);
+                    break;
+                default:
+                    node = new BehaviorNode(nodeName,_container);
+                    Debug.Log("create base node");
+                    break;
+            }
+
+            node.SetPosition(new Rect(position, Vector2.one * 300));
+            return node;
+        }
+        
+        // Create a BehaviorNode based on the given NodeData
         public BehaviorNode CreateBehaviorNode(NodeData data)
         {
             var type = data.type;
@@ -35,7 +68,11 @@ namespace BehaviorTree.Editor
                     return null;
             }
         }
+        
 
+        #region CreatingNode
+
+        // Create a FieldOfViewNode based on the given data
         private BehaviorNode CreateNode(FieldOfViewNodeData data)
         {
             var node = new FieldOfViewNode(data.guid, _container);
@@ -53,6 +90,7 @@ namespace BehaviorTree.Editor
             return node;
         }
 
+        // Create a MoveToTargetNode based on the given data
         private BehaviorNode CreateNode(MoveToTargetNodeData data)
         {
             var node = new MoveToTargetNode(data.guid, _container);
@@ -64,14 +102,19 @@ namespace BehaviorTree.Editor
             return node;
         }
 
+        // Create a SelectorNode based on the given data
         private BehaviorNode CreateNode(SelectorData data)
         {
             return new SelectorNode(data.guid, _container);
         }
 
+        // Create a StartingNode based on the given data
         private BehaviorNode CreateNode(StartingNodeData data)
         {
             return new StartingNodeEditor(data.guid, _container);
         }
+
+        #endregion
     }
+
 }

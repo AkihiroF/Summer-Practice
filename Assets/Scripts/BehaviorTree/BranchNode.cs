@@ -1,60 +1,63 @@
 using System;
 using System.Collections.Generic;
-using BehaviorTree.Actions;
-using UnityEngine;
+using Newtonsoft.Json;
 
 namespace BehaviorTree
 {
     [Serializable]
     public class BranchNode : ANode
     {
+        // Unique identifier for the branch node
         public string ID => id;
-        public ListNextNodes NextNodes => new ListNextNodes()
-        {
-            nextNodes = this.nextNodes
-        };
 
-        protected BranchNode(ParameterContainer container, string id) : base(container, id)
+        // List of next nodes in the behavior tree
+        protected ListNextNodes nextNodes;
+
+        // Public accessor for next nodes
+        public ListNextNodes NextNodes => nextNodes;
+
+        // Constructor to initialize the branch node with parameters
+        public BranchNode(ParameterContainer container, string id) : base(container, id)
         {
         }
-        protected List<NextNode> nextNodes;
 
-        public void SaveChildes()
+        // Serializes the children nodes into JSON format
+        public void SerializeChildren()
         {
-            nextNodes = new List<NextNode>();
+            nextNodes = new ListNextNodes
+            {
+                nextNodes = new List<NextNode>()
+            };
+
             var nodes = Container.GetParameter<List<ANode>>($"ChildNodes {id}");
+            
             foreach (var node in nodes)
             {
-                nextNodes.Add(new NextNode()
+                nextNodes.nextNodes.Add(new NextNode()
                 {
                     type = node.GetType().FullName,
-                    nodeData = JsonUtility.ToJson(node)
+                    nodeData = JsonConvert.SerializeObject(node)
                 });
             }
         }
 
-        public void SetChildes(Dictionary<string, string> nodes)
+        // Deserializes the children nodes from JSON format
+        public void DeserializeChildren(Dictionary<string, string> nodes)
         {
             var nodesData = nodes[id];
-            nextNodes = JsonUtility.FromJson<ListNextNodes>(nodesData).nextNodes;
-            for(int i = 0; i < nextNodes.Count; i++)
+            nextNodes = JsonConvert.DeserializeObject<ListNextNodes>(nodesData);
+            for(int i = 0; i < nextNodes.nextNodes.Count; i++)
             {
-                var currentNode = nextNodes[i];
+                var currentNode = nextNodes.nextNodes[i];
                 Type type = Type.GetType(currentNode.type);
-                var newNode = (ANode)JsonUtility.FromJson(currentNode.nodeData, type);
+                var newNode = (ANode)JsonConvert.DeserializeObject(currentNode.nodeData, type);
                 currentNode.node = newNode;
-                nextNodes[i] = currentNode;
+                nextNodes.nextNodes[i] = currentNode;
                 if (currentNode.node is BranchNode branchNode)
                 {
-                    branchNode.SetChildes(nodes);
+                    branchNode.DeserializeChildren(nodes);
                 }
             }
         }
-    }
-
-    [Serializable]
-    public struct ListNextNodes
-    {
-        public List<NextNode> nextNodes;
     }
 }
