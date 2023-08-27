@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using UnityEngine;
 
 namespace BehaviorTree
@@ -31,6 +30,8 @@ namespace BehaviorTree
             };
 
             var nodes = Container.GetParameter<List<ANode>>($"ChildNodes {id}");
+            if(nodes == null)
+                return;
             
             foreach (var node in nodes)
             {

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using BehaviorTree.Editor.Nodes;
 using BehaviorTree.Editor.SaveSystem;
-using Services;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -10,7 +9,7 @@ namespace BehaviorTree.Editor
 {
     public class BehaviorTreeGraphView : GraphView
     {
-        public TextField NameTree; // TextField to input the name of the tree
+        public PopupField<string> NameTree; // TextField to input the name of the tree
         private NodeSaver _saver; // Responsible for saving the nodes
         private ParameterContainer _container; // Container for parameters
         private NodeFactory _nodeFactory; // Factory for creating nodes
@@ -20,14 +19,14 @@ namespace BehaviorTree.Editor
             _saver = new NodeSaver();
             _container = new ParameterContainer();
             _nodeFactory = new NodeFactory(_container); // Initialize node factory
-            
             this.AddManipulator(new ContentZoomer());
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
-
-            var grid = new GridBackground();
-            Insert(0, grid);
+            
+            GridBackground grid = new GridBackground();
+            Add(grid);
+            grid.SendToBack();
             grid.StretchToParentSize();
             this.style.flexGrow = 1;
         }

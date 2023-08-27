@@ -29,10 +29,8 @@ namespace BehaviorTree
             foreach (var child in nextNodes.nextNodes)
             {
                 var status = child.node.Tick();
-                if (status == NodeStatus.Success)
-                    return NodeStatus.Success;
                 if (status == NodeStatus.Running)
-                    return NodeStatus.Running;
+                     return NodeStatus.Running;
             }
 
             return NodeStatus.Failed;

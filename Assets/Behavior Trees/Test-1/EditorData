@@ -1,0 +1,34 @@
+{
+    "nodes": [
+        "{\"guid\":\"bc39c9ab-620f-4fb9-adb3-a1149120bff0\",\"type\":\"SelectorNode\",\"position\":{\"x\":412.0,\"y\":213.0},\"OutPorts\":[\"Child 1\",\"Child 2\"]}",
+        "{\"guid\":\"05ee7c7d-8390-4d74-a1e0-3114157e3d48\",\"type\":\"StartingNode\",\"position\":{\"x\":215.0,\"y\":136.0}}",
+        "{\"guid\":\"cce62192-0784-41e0-b5e0-e1bfe36b6798\",\"type\":\"FieldOfViewNode\",\"position\":{\"x\":869.0,\"y\":90.0},\"origin\":{\"instanceID\":31638},\"radiusVision\":20.0,\"angleVision\":90.0,\"playerLayer\":{\"serializedVersion\":\"2\",\"m_Bits\":16},\"obstacleLayer\":{\"serializedVersion\":\"2\",\"m_Bits\":0}}",
+        "{\"guid\":\"6851ebcc-a540-4b31-a6e5-f03f66f3a310\",\"type\":\"MoveToTargetNode\",\"position\":{\"x\":856.0,\"y\":351.0},\"agent\":{\"instanceID\":31584},\"targetPosition\":{\"instanceID\":31646}}"
+    ],
+    "nodesType": [
+        "BehaviorTree.Editor.SaveSystem.Nodes.SelectorData",
+        "BehaviorTree.Editor.SaveSystem.Nodes.StartingNodeData",
+        "BehaviorTree.Editor.SaveSystem.Nodes.FieldOfViewNodeData",
+        "BehaviorTree.Editor.SaveSystem.Nodes.MoveToTargetNodeData"
+    ],
+    "edges": [
+        {
+            "fromNodeGuid": "05ee7c7d-8390-4d74-a1e0-3114157e3d48",
+            "toNodeGuid": "bc39c9ab-620f-4fb9-adb3-a1149120bff0",
+            "fromPortName": "Output",
+            "toPortName": "Input Port"
+        },
+        {
+            "fromNodeGuid": "bc39c9ab-620f-4fb9-adb3-a1149120bff0",
+            "toNodeGuid": "cce62192-0784-41e0-b5e0-e1bfe36b6798",
+            "fromPortName": "Child 1",
+            "toPortName": "Input Port"
+        },
+        {
+            "fromNodeGuid": "bc39c9ab-620f-4fb9-adb3-a1149120bff0",
+            "toNodeGuid": "6851ebcc-a540-4b31-a6e5-f03f66f3a310",
+            "fromPortName": "Child 2",
+            "toPortName": "Input Port"
+        }
+    ]
+}

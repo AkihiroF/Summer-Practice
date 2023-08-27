@@ -181,6 +181,7 @@ namespace BehaviorTree.Editor.SaveSystem
                 guid = node.GUID,
                 position = node.GetPosition().position,
                 type = "SelectorNode",
+                OutPorts = node.GetActivePorts.Select(port => port.portName).ToList()
             };
             return JsonUtility.ToJson(data);
         }

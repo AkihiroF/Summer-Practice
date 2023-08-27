@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d64b47c83b24a0a95e4b75aebbd48b8, type: 3}
+  m_Name: Test-1So
+  m_EditorClassIdentifier: 
+  StartingNodeData: '{"nodeStatus":0,"id":"05ee7c7d-8390-4d74-a1e0-3114157e3d48"}'
+  TypeNode: BehaviorTree.Actions.StartingNode
+  StartingNode:
+    nodeStatus: 0
+    id: 05ee7c7d-8390-4d74-a1e0-3114157e3d48
+  keys:
+  - bc39c9ab-620f-4fb9-adb3-a1149120bff0
+  - 05ee7c7d-8390-4d74-a1e0-3114157e3d48
+  nodes:
+  - '{"nextNodes":[{"nodeData":"{\"nodeStatus\":0,\"id\":\"cce62192-0784-41e0-b5e0-e1bfe36b6798\",\"origin\":{\"instanceID\":31638},\"radiusVision\":20.0,\"angleVision\":90.0,\"playerLayer\":{\"serializedVersion\":\"2\",\"m_Bits\":16},\"obstacleLayer\":{\"serializedVersion\":\"2\",\"m_Bits\":0}}","type":"BehaviorTree.Conditions.FieldOfView","node":{"nodeStatus":0,"id":""}},{"nodeData":"{\"nodeStatus\":0,\"id\":\"6851ebcc-a540-4b31-a6e5-f03f66f3a310\",\"agent\":{\"instanceID\":31584},\"targetPosition\":{\"x\":-1.0241951942443848,\"y\":1.0800000429153443,\"z\":-15.449999809265137},\"stoppingDistance\":0.0}","type":"BehaviorTree.Actions.MoveToTarget","node":{"nodeStatus":0,"id":""}}]}'
+  - '{"nextNodes":[{"nodeData":"{\"nodeStatus\":0,\"id\":\"bc39c9ab-620f-4fb9-adb3-a1149120bff0\"}","type":"BehaviorTree.Selector","node":{"nodeStatus":0,"id":""}}]}'

@@ -105,7 +105,7 @@ namespace BehaviorTree.Editor
         // Create a SelectorNode based on the given data
         private BehaviorNode CreateNode(SelectorData data)
         {
-            return new SelectorNode(data.guid, _container);
+            return new SelectorNode(data.guid,data.OutPorts, _container);
         }
 
         // Create a StartingNode based on the given data
